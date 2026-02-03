@@ -1,4 +1,4 @@
-/* Unithesis Connect - Premium Design System */
+/* MyThesis - Premium Design System */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
@@ -525,7 +525,7 @@ p {
     /* Hide text logo on very small screens if needed, or keep provided it fits */
     .sidebar-header span {
         display: none;
-        /* Hide 'UniThesis' text on mobile to save space */
+        /* Hide 'MyThesis' text on mobile to save space */
     }
 
     .sidebar-nav {

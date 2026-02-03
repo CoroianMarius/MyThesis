@@ -13,7 +13,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => (
       <div className="login-icon-circle">
         <Briefcase size={32} />
       </div>
-      <h1 style={{ marginBottom: '0.5rem' }}>UniThesis Connect</h1>
+      <h1 style={{ marginBottom: '0.5rem' }}>MyThesis</h1>
       <p style={{ marginBottom: '2rem' }}>Platforma premium de management al lucrărilor de licență și disertație.</p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

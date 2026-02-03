@@ -22,8 +22,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ user, onLogout, currentPage, o
   return (
     <aside className="app-sidebar">
       <div className="sidebar-header">
-        <div style={{ width: '2rem', height: '2rem', background: '#3b82f6', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>U</div>
-        <span style={{ fontSize: '1.25rem', fontWeight: 'bold', letterSpacing: '-0.025em' }}>UniThesis</span>
+        <div style={{ width: '2rem', height: '2rem', background: '#3b82f6', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>M</div>
+        <span style={{ fontSize: '1.25rem', fontWeight: 'bold', letterSpacing: '-0.025em' }}>MyThesis</span>
       </div>
 
       <nav className="sidebar-nav">
