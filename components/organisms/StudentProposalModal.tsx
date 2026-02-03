@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ThesisType } from '../../types';
+import { ThesisType, User } from '../../types';
 import { X } from 'lucide-react';
 
 interface StudentProposalModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (data: any) => void;
+    user: User; // Need user to know who is proposing
 }
 
-export const StudentProposalModal: React.FC<StudentProposalModalProps> = ({ isOpen, onClose, onSubmit }) => {
+export const StudentProposalModal: React.FC<StudentProposalModalProps> = ({ isOpen, onClose, onSubmit, user }) => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, UserRole, Task, ChatMessage } from '../types';
 import { summarizeProject } from '../services/geminiService';
+import { MockDb } from '../services/mockDb';
+import { AddTaskModal } from '../components/organisms/AddTaskModal';
 import {
   CheckCircle,
   MessageSquare,
@@ -11,9 +13,6 @@ import {
   AlertCircle,
   LayoutDashboard
 } from 'lucide-react';
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
-} from 'recharts';
 import { Button } from '../components/atoms/Button';
 import { TaskItem } from '../components/molecules/TaskItem';
 import { ChatMessage as ChatBubble } from '../components/molecules/ChatMessage';
@@ -25,12 +24,7 @@ interface WorkflowProps {
 
 export const Workflow: React.FC<WorkflowProps> = ({ user }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'tasks' | 'chat' | 'docs'>('overview');
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: '1', title: 'Documentare bibliografică', deadline: '2023-11-15', completed: true },
-    { id: '2', title: 'Definire arhitectură sistem', deadline: '2023-12-20', completed: false },
-    { id: '3', title: 'Implementare prototip (MVP)', deadline: '2024-02-15', completed: false },
-    { id: '4', title: 'Redactare Capitolul 1 & 2', deadline: '2024-03-01', completed: false },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     { id: 'm1', senderId: 't1', text: 'Salut Andrei, te rog să încarci schița arhitecturii până vineri.', timestamp: new Date(Date.now() - 86400000) },
     { id: 'm2', senderId: 's1', text: 'Sigur, lucrez la diagrama UML acum.', timestamp: new Date(Date.now() - 3600000) }
@@ -38,8 +32,34 @@ export const Workflow: React.FC<WorkflowProps> = ({ user }) => {
   const [newMessage, setNewMessage] = useState('');
   const [summary, setSummary] = useState('');
 
+  useEffect(() => {
+    MockDb.getTasks().then(setTasks);
+  }, []);
+
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+
+  const handleAddTask = (title: string, deadline: string) => {
+    const newTask: Task = {
+      id: Date.now().toString(),
+      title,
+      deadline,
+      completed: false
+    };
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    MockDb.updateTasks(updatedTasks);
+  };
+
   const toggleTask = (id: string) => {
-    setTasks(tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+    const updatedTasks = tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+    setTasks(updatedTasks);
+    MockDb.updateTasks(updatedTasks);
+  };
+
+  const handleGradeTask = (id: string, grade: number) => {
+    const updatedTasks = tasks.map(t => t.id === id ? { ...t, grade } : t);
+    setTasks(updatedTasks);
+    MockDb.updateTasks(updatedTasks);
   };
 
   const handleSendMessage = () => {
@@ -60,14 +80,6 @@ export const Workflow: React.FC<WorkflowProps> = ({ user }) => {
     setSummary(res);
   };
 
-  // Mock Data for Charts
-  const data = [
-    { name: 'Oct', progress: 10 },
-    { name: 'Nov', progress: 30 },
-    { name: 'Dec', progress: 45 },
-    { name: 'Jan', progress: 50 },
-    { name: 'Feb', progress: 50 },
-  ];
 
   return (
     <div className="space-y-6">
@@ -112,18 +124,6 @@ export const Workflow: React.FC<WorkflowProps> = ({ user }) => {
                   <p style={{ textAlign: 'right', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>45% Finalizat</p>
                 </div>
 
-                <div style={{ height: '300px' }}>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '1rem' }}>Velocity Chart</h3>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={data}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                      <YAxis axisLine={false} tickLine={false} />
-                      <Tooltip cursor={{ fill: '#f1f5f9' }} />
-                      <Bar dataKey="progress" fill="var(--color-primary)" radius={[4, 4, 0, 0]} barSize={32} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
               </div>
 
               <div className="space-y-4">
@@ -152,13 +152,19 @@ export const Workflow: React.FC<WorkflowProps> = ({ user }) => {
           {activeTab === 'tasks' && (
             <div className="space-y-4">
               <div className="flex-between" style={{ marginBottom: '1rem' }}>
-                <h3 style={{ fontSize: '1.25rem' }}>Lista de Jaloane</h3>
+                <h3 style={{ fontSize: '1.25rem' }}>Lista de Task-uri</h3>
                 {user.role === UserRole.TEACHER && (
-                  <Button variant="primary" icon={Plus}>Adaugă Task</Button>
+                  <Button variant="primary" icon={Plus} onClick={() => setIsTaskModalOpen(true)}>Adaugă Task</Button>
                 )}
               </div>
               {tasks.map(task => (
-                <TaskItem key={task.id} task={task} onToggle={toggleTask} />
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  userRole={user.role}
+                  onToggle={toggleTask}
+                  onGrade={handleGradeTask}
+                />
               ))}
             </div>
           )}
@@ -233,6 +239,14 @@ export const Workflow: React.FC<WorkflowProps> = ({ user }) => {
           )}
         </div>
       </div>
+
+      {/* Modal */}
+      {isTaskModalOpen && (
+        <AddTaskModal
+          onSave={handleAddTask}
+          onClose={() => setIsTaskModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

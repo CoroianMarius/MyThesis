@@ -104,9 +104,36 @@ export default function App() {
     return <Login onLogin={handleLogin} />;
   }
 
+  /* New handler for student proposals */
+  const handleStudentProposal = async (proposalData: any) => {
+    if (!user) return;
+    const newThesis: Thesis = {
+      id: `th-prop-${Date.now()}`,
+      title: proposalData.title,
+      description: proposalData.description,
+      type: proposalData.type,
+      professorId: 'PENDING', // Special flag or leave empty
+      professorName: 'Propunere Student', // Or "Căutare Coordonator"
+      department: user.department || 'Informatica',
+      tags: proposalData.technologies ? proposalData.technologies.split(',').map((s: string) => s.trim()) : [],
+      status: 'PENDING_APPROVAL' as any, // We might need to add this status to Enum or map to AVAILABLE with a flag
+      applicants: [user.id], // The student is the applicant
+      assignedStudentId: undefined // Not assigned yet
+    };
+
+    // We need to support PENDING_APPROVAL status or reuse AVAILABLE with a flag.
+    // For simplicity, let's use AVAILABLE but with a special professorId.
+    // Actually, better to add to MockDb.
+    await MockDb.addThesis(newThesis);
+    const loaded = await MockDb.getTheses();
+    setTheses(loaded);
+    alert("Propunerea a fost trimisă cu succes! Profesorii o pot vedea acum.");
+  };
+
+
   return (
     <DashboardLayout user={user} onLogout={handleLogout} currentPage={page} onNavigate={setPage}>
-      {page === 'marketplace' && <Marketplace user={user} theses={theses} onApply={handleApply} />}
+      {page === 'marketplace' && <Marketplace user={user} theses={theses} onApply={handleApply} onProposal={handleStudentProposal} />}
       {page === 'dashboard' && <Workflow user={user} />}
       {page === 'profile' && <Profile user={user} onUpdateProfile={handleUpdateProfile} onResetData={handleResetData} />}
       {page === 'management' && <TeacherManagement
@@ -115,6 +142,11 @@ export default function App() {
         onAcceptStudent={handleAcceptStudent}
         onRejectStudent={handleRejectStudent}
         onAddThesis={handleAddThesis}
+        onAcceptStudentProposal={async (thesisId) => {
+          const updated = await MockDb.acceptStudentProposal(thesisId, user.id, user.name);
+          setTheses(updated);
+          alert("Ai acceptat propunerea studentului! Acum ești coordonatorul acestei teme.");
+        }}
       />}
     </DashboardLayout>
   );

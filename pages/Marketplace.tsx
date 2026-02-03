@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { User, Thesis, ThesisType, UserRole } from '../types';
-import { generateThesisIdeas } from '../services/geminiService';
-import { Sparkles, XCircle, Filter, PlusCircle } from 'lucide-react';
+import { Filter, PlusCircle } from 'lucide-react';
 import { ThesisCard } from '../components/molecules/ThesisCard';
 import { StudentProposalModal } from '../components/organisms/StudentProposalModal';
 
@@ -9,33 +8,20 @@ interface MarketplaceProps {
   user: User;
   theses: Thesis[];
   onApply: (id: string) => void;
+  onProposal?: (data: any) => void;
 }
 
-export const Marketplace: React.FC<MarketplaceProps> = ({ user, theses, onApply }) => {
+export const Marketplace: React.FC<MarketplaceProps> = ({ user, theses, onApply, onProposal }) => {
   const [filterType, setFilterType] = useState<string>('ALL');
-  const [aiSuggestions, setAiSuggestions] = useState<string>('');
-  const [loadingAi, setLoadingAi] = useState(false);
   const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
 
   const filteredTheses = theses.filter(t => filterType === 'ALL' || t.type === filterType);
 
-  const handleGenerateIdeas = async () => {
-    if (!user.interests) return;
-    setLoadingAi(true);
-    // Mock latency if service fails or just for effect
-    try {
-      const result = await generateThesisIdeas(user.interests);
-      setAiSuggestions(result);
-    } catch (e) {
-      setAiSuggestions("Eroare la generarea ideilor. Vă rugăm încercați din nou.");
-    }
-    setLoadingAi(false);
-  };
-
   const handleProposalSubmit = (data: any) => {
     setIsProposalModalOpen(false);
-    alert("Propunerea a fost trimisă cu succes către profesori! Vei fi contactat dacă un profesor este interesat.");
-    // In a real app, this would make an API call to save the proposal
+    if (onProposal) {
+      onProposal(data);
+    }
   };
 
   return (
@@ -44,6 +30,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({ user, theses, onApply 
         isOpen={isProposalModalOpen}
         onClose={() => setIsProposalModalOpen(false)}
         onSubmit={handleProposalSubmit}
+        user={user}
       />
 
       <div className="flex-between">
@@ -61,35 +48,9 @@ export const Marketplace: React.FC<MarketplaceProps> = ({ user, theses, onApply 
               <PlusCircle size={18} />
               <span>Propune Temă</span>
             </button>
-            <button
-              onClick={handleGenerateIdeas}
-              className="btn btn-primary"
-              style={{ background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)', border: 'none' }}
-            >
-              <Sparkles size={18} />
-              <span>AI Matchmaking</span>
-            </button>
           </div>
         )}
       </div>
-
-      {/* AI Section */}
-      {aiSuggestions && (
-        <div className="card" style={{ background: '#eef2ff', borderColor: '#c7d2fe' }}>
-          <button onClick={() => setAiSuggestions('')} style={{ float: 'right', color: '#6366f1' }}><XCircle size={20} /></button>
-          <h3 style={{ color: '#312e81', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-            <Sparkles size={18} /> Sugestii AI Personalizate
-          </h3>
-          <div style={{ lineHeight: 1.6, color: '#3730a3' }} dangerouslySetInnerHTML={{ __html: aiSuggestions.replace(/\n/g, '<br/>') }}></div>
-        </div>
-      )}
-
-      {loadingAi && (
-        <div className="card" style={{ textAlign: 'center', padding: '3rem', background: '#eef2ff', color: '#6366f1' }}>
-          <Sparkles className="animate-spin" size={32} style={{ margin: '0 auto 1rem' }} />
-          <p>Se analizează profilul tău academic...</p>
-        </div>
-      )}
 
       {/* Filter Bar */}
       <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>

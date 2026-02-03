@@ -13,7 +13,8 @@ export enum ThesisType {
 export enum ThesisStatus {
   AVAILABLE = 'DISPONIBIL',
   PENDING = 'IN_ASTEPTARE', // Student applied
-  TAKEN = 'OCUPAT' // Matched
+  TAKEN = 'OCUPAT', // Matched
+  PENDING_APPROVAL = 'NECESITA_APROBARE' // Student proposed
 }
 
 export interface User {
@@ -46,6 +47,7 @@ export interface Task {
   title: string;
   deadline: string;
   completed: boolean;
+  grade?: number | null;
 }
 
 export interface ChatMessage {

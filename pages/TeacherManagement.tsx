@@ -12,14 +12,18 @@ interface TeacherManagementProps {
     onAcceptStudent: (thesisId: string, studentId: string) => void;
     onRejectStudent: (thesisId: string, studentId: string) => void;
     onAddThesis: (thesis: Omit<Thesis, 'id' | 'professorId' | 'professorName'>) => void;
+    onAcceptStudentProposal: (thesisId: string) => void;
 }
 
 export const TeacherManagement: React.FC<TeacherManagementProps> = ({
-    user, theses, onAcceptStudent, onRejectStudent, onAddThesis
+    user, theses, onAcceptStudent, onRejectStudent, onAddThesis, onAcceptStudentProposal
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     // Filter theses belonging to this professor
     const myTheses = theses.filter(t => t.professorId === user.id);
+
+    // Filter student proposals
+    const studentProposals = theses.filter(t => t.status === ThesisStatus.PENDING_APPROVAL);
 
     // Need to allow async here or pass users as props.
     // For simplicity update signature to accept users map or just use async effect in parent.
@@ -47,9 +51,45 @@ export const TeacherManagement: React.FC<TeacherManagementProps> = ({
                 onSubmit={onAddThesis}
             />
 
+            {studentProposals.length > 0 && (
+                <div className="space-y-4">
+                    <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#7c3aed' }}>Propuneri de la Studenți ({studentProposals.length})</h2>
+                    <div className="grid-responsive">
+                        {studentProposals.map(proposal => {
+                            const student = proposal.applicants && proposal.applicants.length > 0 ? getStudentDetails(proposal.applicants[0]) : null;
+                            return (
+                                <div key={proposal.id} className="card" style={{ borderLeft: '4px solid #a855f7' }}>
+                                    <div className="flex-between">
+                                        <Badge variant="warning">{proposal.type}</Badge>
+                                        <span className="text-sm text-secondary">Student Proposal</span>
+                                    </div>
+                                    <h3 style={{ fontSize: '1.125rem', margin: '0.5rem 0' }}>{proposal.title}</h3>
+                                    <p className="text-secondary text-sm" style={{ marginBottom: '1rem' }}>{proposal.description}</p>
+
+                                    {student && (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', padding: '0.5rem', background: '#f5f3ff', borderRadius: '0.5rem' }}>
+                                            <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#ddd' }}></div>
+                                            <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Propus de: {student.name}</span>
+                                        </div>
+                                    )}
+
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => onAcceptStudentProposal(proposal.id)}
+                                        style={{ width: '100%', justifyContent: 'center' }}
+                                    >
+                                        Acceptă și Coordonează
+                                    </Button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+
             <div className="flex-between">
                 <div>
-                    <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Management Teme Propuse</h1>
+                    <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Management Teme Propuse Proprii</h1>
                     <p className="text-secondary">Gestionează aplicațiile studenților și temele tale.</p>
                 </div>
                 <Button variant="primary" icon={BookOpen} onClick={() => setIsModalOpen(true)}>Propune Temă Nouă</Button>
