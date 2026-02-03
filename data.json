@@ -1,0 +1,234 @@
+{
+    "users": [
+        {
+            "id": "s1",
+            "name": "Andrei Popescu",
+            "email": "andrei.popescu@e-uvt.ro",
+            "role": "STUDENT",
+            "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop",
+            "bio": "Student pasionat de AI și Web Development. Caut o temă provocatoare în domeniul Machine Learning aplicat.",
+            "interests": [
+                "React",
+                "Machine Learning",
+                "Cloud Computing",
+                "Python"
+            ],
+            "department": "Informatică"
+        },
+        {
+            "id": "s2",
+            "name": "Maria Voinea",
+            "email": "maria.voinea@e-uvt.ro",
+            "role": "STUDENT",
+            "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
+            "bio": "Pasionată de securitate cibernetică și criptografie. Doresc să aprofundez Blockchain.",
+            "interests": [
+                "Cybersecurity",
+                "Blockchain",
+                "Cryptography"
+            ],
+            "department": "Informatică"
+        },
+        {
+            "id": "s3",
+            "name": "Alexandru Munteanu",
+            "email": "alex.munteanu@e-uvt.ro",
+            "role": "STUDENT",
+            "avatar": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=200&h=200&fit=crop",
+            "bio": "Interesat de sisteme distribuite și High Performance Computing.",
+            "interests": [
+                "Go",
+                "Docker",
+                "Kubernetes",
+                "Distributed Systems"
+            ],
+            "department": "Informatică"
+        },
+        {
+            "id": "t1",
+            "name": "Prof. Dr. Elena Ionescu",
+            "email": "elena.ionescu@e-uvt.ro",
+            "role": "TEACHER",
+            "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop",
+            "bio": "Cercetător în sisteme distribuite și securitate cibernetică. Coordonator Doctorat.",
+            "interests": [
+                "Cybersecurity",
+                "Blockchain",
+                "IoT",
+                "Privacy"
+            ],
+            "department": "Informatică"
+        },
+        {
+            "id": "t2",
+            "name": "Conf. Dr. Mihai Radu",
+            "email": "mihai.radu@e-uvt.ro",
+            "role": "TEACHER",
+            "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop",
+            "bio": "Expert în Algoritmi Genetici și Optimizare. Interesat de aplicații în Smart Cities.",
+            "interests": [
+                "Algorithms",
+                "AI",
+                "Optimization",
+                "Smart City"
+            ],
+            "department": "Informatică"
+        },
+        {
+            "id": "t3",
+            "name": "Lect. Dr. Diana Stanciu",
+            "email": "diana.stanciu@e-uvt.ro",
+            "role": "TEACHER",
+            "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop",
+            "bio": "Specialistă în Human-Computer Interaction și UX Design.",
+            "interests": [
+                "HCI",
+                "UX/UI",
+                "Accessibility",
+                "Frontend"
+            ],
+            "department": "Informatică"
+        }
+    ],
+    "theses": [
+        {
+            "id": "th1",
+            "title": "Utilizarea AI în detecția anomaliilor financiare",
+            "description": "Această lucrare propune dezvoltarea unui model de ML pentru a identifica fraudele bancare în timp real folosind rețele neurale recurente.",
+            "professorId": "t1",
+            "professorName": "Prof. Dr. Elena Ionescu",
+            "type": "LICENTA",
+            "department": "Informatică",
+            "tags": [
+                "AI",
+                "FinTech",
+                "Python",
+                "Security"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": []
+        },
+        {
+            "id": "th2",
+            "title": "Platformă descentralizată de votare folosind Blockchain",
+            "description": "Studiu și implementare a unui sistem de vot electronic securizat pe Ethereum. Se va analiza scalabilitatea și privacy-ul.",
+            "professorId": "t1",
+            "professorName": "Prof. Dr. Elena Ionescu",
+            "type": "DISERTATIE",
+            "department": "Informatică",
+            "tags": [
+                "Blockchain",
+                "Solidity",
+                "Security",
+                "Web3"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": [
+                "s2"
+            ]
+        },
+        {
+            "id": "th3",
+            "title": "Optimizarea traficului urban folosind algoritmi genetici",
+            "description": "Simularea intersecțiilor inteligente într-un oraș aglomerat. Se vor folosi date reale de trafic pentru validare.",
+            "professorId": "t2",
+            "professorName": "Conf. Dr. Mihai Radu",
+            "type": "LICENTA",
+            "department": "Informatică",
+            "tags": [
+                "Algorithms",
+                "Simulation",
+                "Traffic",
+                "C++"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": []
+        },
+        {
+            "id": "th4",
+            "title": "Sistem de monitorizare a calității aerului bazat pe IoT",
+            "description": "Dezvoltarea unei rețele de senzori low-cost pentru monitorizarea poluării urbane și vizualizarea datelor în timp real.",
+            "professorId": "t1",
+            "professorName": "Prof. Dr. Elena Ionescu",
+            "type": "LICENTA",
+            "department": "Informatică",
+            "tags": [
+                "IoT",
+                "Hardware",
+                "Data Viz",
+                "React"
+            ],
+            "status": "OCUPAT",
+            "assignedStudentId": "s3",
+            "applicants": []
+        },
+        {
+            "id": "th5",
+            "title": "Evaluarea uzabilității aplicațiilor bancare mobile",
+            "description": "Studiu comparativ UX pentru top 5 aplicații bancare din România și propunerea unui redesign incluziv.",
+            "professorId": "t3",
+            "professorName": "Lect. Dr. Diana Stanciu",
+            "type": "LICENTA",
+            "department": "Informatică",
+            "tags": [
+                "UX",
+                "HCI",
+                "Mobile",
+                "Design"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": []
+        },
+        {
+            "id": "th6",
+            "title": "Accesibilizarea platformelor de e-learning pentru persoane cu deficiențe de vedere",
+            "description": "Implementarea și testarea unor module de accesibilitate conform standardelor WCAG 2.1.",
+            "professorId": "t3",
+            "professorName": "Lect. Dr. Diana Stanciu",
+            "type": "DISERTATIE",
+            "department": "Informatică",
+            "tags": [
+                "Accessibility",
+                "Web",
+                "Inclusive Design"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": []
+        },
+        {
+            "id": "th7",
+            "title": "Planificarea rutelor de livrare folosind Ant Colony Optimization",
+            "description": "Rezolvarea problemei comis-voiajorului (TSP) aplicată în logistica last-mile.",
+            "professorId": "t2",
+            "professorName": "Conf. Dr. Mihai Radu",
+            "type": "DISERTATIE",
+            "department": "Informatică",
+            "tags": [
+                "Optimization",
+                "Algorithms",
+                "Logistics"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": [
+                "s1"
+            ]
+        },
+        {
+            "id": "th8",
+            "title": "Detectarea Deepfake-urilor folosind Deep Learning",
+            "description": "Cercetare asupra metodelor de generare și detecție a conținutului video manipulat.",
+            "professorId": "t1",
+            "professorName": "Prof. Dr. Elena Ionescu",
+            "type": "DOCTORAT",
+            "department": "Informatică",
+            "tags": [
+                "AI",
+                "Computer Vision",
+                "Security",
+                "Deep Learning"
+            ],
+            "status": "DISPONIBIL",
+            "applicants": []
+        }
+    ]
+}

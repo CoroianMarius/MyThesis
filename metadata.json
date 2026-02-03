@@ -1,0 +1,8 @@
+{
+  "name": "UniThesis Connect",
+  "description": "O platformă academică pentru gestionarea selecției temelor de licență/disertație și monitorizarea progresului (Marketplace & Workflow).",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
